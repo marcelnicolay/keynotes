@@ -1,0 +1,497 @@
+
+<!DOCTYPE html>
+
+<!--
+  Google HTML5 slide template
+
+  Authors: Luke Mahé (code)
+           Marcin Wichary (code and design)
+           
+           Dominic Mazzoni (browser compatibility)
+           Charles Chen (ChromeVox support)
+
+  URL: http://code.google.com/p/html5slides/
+-->
+
+<html>
+  <head>
+    <title>Tornado :: mais do que um framework bonitinho..</title>
+
+    <meta charset='utf-8'>
+    <link href='media/css/style.css' media='screen' rel='stylesheet' type='text/css' />
+    <script src='http://html5slides.googlecode.com/svn/trunk/slides.js'></script>
+
+    <style media="print">
+         @page {
+            size: A4 landscape;
+             @top-right {
+                content: "Page " counter(page);
+             }
+         }
+          article {
+            page-break-after: always;
+            margin: auto;
+          }
+          article.next, article.past {
+            display: block;    
+          }
+          body {
+              display: block !important;
+              font-family: 'Open Sans', Arial, sans-serif;
+              font-size: 1.5em;
+          }
+      </style>
+  </head>
+  
+  <style>
+    /* Your individual styles here, or just use inline styles if that’s
+       what you want. */
+    
+    
+  </style>
+
+  <body style='display: none'>
+
+    <section class='slides layout-regular'>
+      
+      <article>
+        <h1><img src='http://www.tornadoweb.org/static/tornado.png' /></h1>
+        <p>
+          Mais do que um framework bonitinho
+        </p>
+        <footer><i>marcelnicolay.com</i></footer>
+      </article>
+
+      <article>
+        <img src='http://www.tornadoweb.org/static/tornado.png' />
+        <p>
+          Tornado é um framework web non-blocking, escrito para lidar com milhares de conexões simultâneamente.<br />
+          E que mais?
+        </p>
+        <ul class="build">
+            <li>URL Spec</li>
+            <li>Template</li>
+            <li>Locale</li>
+            <li>Request Handler</li>
+            <li>HTTP Server</li>
+        </ul>
+
+        <footer><i>marcelnicolay.com</i></footer>
+      </article>
+
+      <article>
+        <img src='http://www.tornadoweb.org/static/tornado.png' />
+        <pre>
+import tornado.ioloop
+import tornado.web
+
+class MainHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.write("Hello, world")
+
+if __name__ == "__main__":
+    application = tornado.web.Application([
+        (r"/", MainHandler),
+    ])
+    application.listen(8888)
+    tornado.ioloop.IOLoop.instance().start()        </pre>
+
+        <footer><i>marcelnicolay.com</i></footer>
+      </article>
+
+      <article>
+        <h1>mas é só isso?</h1>
+        <ul class="build">
+            <li>não...</li>
+        </ul>
+        <footer><i>marcelnicolay.com</i></footer>
+      </article>
+
+      <article>
+        <h3>background</h3>
+        <p>
+          O que você sabe sobre:
+        </p>
+        <ul class='build'>
+            <li>Non-blocking I/O?</li>
+            <li>Callback pass style?</li>
+        </ul>
+
+        <footer><i>marcelnicolay.com</i></footer>
+      </article>
+
+      <article>
+        <h3>non-blocking I/O</h3>
+        <p>
+          É um forma de processamento de entrada/saída (input/output) que não bloqueia o processo, permitindo executar outras coisas em paralelo.
+        </p>
+        <p>
+          Operações de entrada e saída, como leitura e escrita, podem ser extremamente lentas em comparação com o processamento.
+        </p>
+        <p>
+          Por exemplo, durante uma operação de disco que leve 10 milisegundos para ser realizada, um processador de 1 gigahertz pode processar até 10milhões de instruções.
+        </p>
+
+        <footer><i>marcelnicolay.com</i></footer>
+      </article>
+
+      <article>
+        <h3>non-blocking I/O</h3>
+        <p>
+          Typical flow of the synchronous blocking I/O model
+        </p>
+        <img src='media/images/blockingio.gif' />
+
+        <footer><i>marcelnicolay.com</i></footer>
+      </article>
+
+      <article>
+        <h3>asynchronous I/O</h3>
+        <p>
+          Typical flow of the asynchronous non-blocking I/O model
+        </p>
+        <img src='media/images/nonblockingIO.gif' />
+
+        <footer><i>marcelnicolay.com</i></footer>
+      </article>
+
+      <article>
+        <h3>non-blocking I/O</h3>
+        <i>Everything in unix is a file descriptor</i>
+        <p>
+          incluindo:
+        </p>
+        <ul class='build'>
+          <li>sockets</li>
+          <li>connections</li>
+        </ul>
+
+        <footer><i>marcelnicolay.com</i></footer>
+      </article>
+
+      <article>
+        <h3>sockets operations</h3>
+        <br /><br /><br /><br />
+        <p style='width:50%; float:left;text-align:center'>
+          <b style='display:block;'>client</b>
+          <img src='media/images/tcp-client.png' />
+        </p>
+        <p style='width:50%; float:left;text-align:center'>
+          <b style='display:block;'>server</b>
+          <img src='media/images/tcp-server.png' />
+        </p>
+
+        <footer><i>marcelnicolay.com</i></footer>
+      </article>
+
+      <article>
+        <h3>synchronous accept</h3>
+        <p style='text-align:center;margin-top:100px'>
+          <img src='media/images/sequential-accept.png' />
+        </p>
+
+        <footer><i>marcelnicolay.com</i></footer>
+      </article>
+
+      <article>
+        <h3>asynchronous accept</h3>
+        <p style='text-align:center;margin-top:100px'>
+          <img src='media/images/parallel-accept.png' />
+        </p>
+
+        <footer><i>marcelnicolay.com</i></footer>
+      </article>
+
+      <article>
+        <h3>callback passing style</h3>
+        <pre>
+def start(foo):
+  # do stuff with foo and when donw call the next function
+  stuff(callback=next_step, data=foo);
+
+def next_step(bar):
+  # call more_stuff to parse bar
+  more_stuff(callback=last_step, data=bar)
+
+def last_step(baz):
+  # senf the response
+  send_response(baz)
+
+  #let our handler know we are done
+  finish()
+        </pre>
+
+        <footer><i>marcelnicolay.com</i></footer>
+      </article>
+
+      <article>
+        <h3>IOLoop</h3>
+        <p>An I/O event loop for non-blocking sockets.</p>
+        <ul class='build'>
+          <li>core da camada de rede do tornado</li>
+          <li>rápido e fácil de usar</li>
+          <li>uma instância por processo</li>
+          <li>cross-plataforma</li>
+          <li>código aberto</li>
+          <li>client libraries & server applications</li>
+        </ul>
+
+        <footer><i>marcelnicolay.com</i></footer>
+      </article>
+
+      <article>
+        <h3>IOLoop</h3>
+        <div style='height:600px; overflow-y:scroll'>
+        <pre>import errno
+import functools
+import ioloop
+import socket
+
+def connection_ready(sock, fd, events):
+    while True:
+        try:
+            connection, address = sock.accept()
+        except socket.error, e:
+            if e.args[0] not in (errno.EWOULDBLOCK, errno.EAGAIN):
+                raise
+            return
+        connection.setblocking(0)
+        handle_connection(connection, address)
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
+sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+sock.setblocking(0)
+sock.bind(("", port))
+sock.listen(128)
+
+io_loop = ioloop.IOLoop.instance()
+callback = functools.partial(connection_ready, sock)
+io_loop.add_handler(sock.fileno(), callback, io_loop.READ)
+io_loop.start()
+        </pre>
+</div>
+        <footer><i>marcelnicolay.com</i></footer>
+      </article>
+
+      <article>
+        <h3>IOStream</h3>
+        <p>Utility classes to write to and read from non-blocking files and sockets.</p>
+        <ul class='build'>
+          <li>faz todo o "trabalho sujo" para você</li>
+          <li>também usado em client & server</li>
+        </ul>
+
+        <footer><i>marcelnicolay.com</i></footer>
+      </article>
+
+      <article>
+        <h3>IOStream: a very simple HTTP client</h3>
+        <div style='height:600px; overflow-y:scroll'>
+        <pre>from tornado import ioloop
+from tornado import iostream
+import socket
+
+def send_request():
+    stream.write("GET / HTTP/1.0\r\nHost: friendfeed.com\r\n\r\n")
+    stream.read_until("\r\n\r\n", on_headers)
+
+def on_headers(data):
+    headers = {}
+    for line in data.split("\r\n"):
+       parts = line.split(":")
+       if len(parts) == 2:
+           headers[parts[0].strip()] = parts[1].strip()
+    stream.read_bytes(int(headers["Content-Length"]), on_body)
+
+def on_body(data):
+    print data
+    stream.close()
+    ioloop.IOLoop.instance().stop()
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
+stream = iostream.IOStream(s)
+stream.connect(("friendfeed.com", 80), send_request)
+ioloop.IOLoop.instance().start()</pre>
+        </div>
+      </article>
+
+      <article>
+        <h3>tornado.stack_context</h3>
+        <p>permite preservar o estado atual para ser usado em um outro contexto de execução</p>
+        <pre>@contextlib.contextmanager
+def die_on_error():
+    try:
+        yield
+    except Exception:
+        logging.error("exception in asynchronous operation",exc_info=True)
+        sys.exit(1)
+
+with StackContext(die_on_error):
+    # Any exception thrown here *or in callback and its desendents*
+    # will cause the process to exit instead of spinning endlessly
+    # in the ioloop.
+    http_client.fetch(url, callback)
+ioloop.start()
+        </pre>
+        <footer><i>marcelnicolay.com</i></footer>
+      </article>
+      
+
+      <article>
+        <h3>tornado.gen</h3>
+        <p>Não curtiu o 'callback passing style'?</p>
+        <pre>class AsyncHandler(RequestHandler):
+    @asynchronous
+    def get(self):
+        http_client = AsyncHTTPClient()
+        http_client.fetch("http://example.com",
+                          callback=self.on_fetch)
+
+    def on_fetch(self, response):
+        do_something_with_response(response)
+        self.render("template.html")
+        </pre>
+        <footer><i>marcelnicolay.com</i></footer>
+      </article>
+      <article>
+        <h3>tornado.gen</h3>
+        <p>Existe uma forma mais 'pythonica' de fazer isso...</p>
+        <pre>class GenAsyncHandler(RequestHandler):
+    @asynchronous
+    @gen.engine
+    def get(self):
+        http_client = AsyncHTTPClient()
+        response = yield gen.Task(http_client.fetch,
+                                  "http://example.com")
+        do_something_with_response(response)
+        self.render("template.html")
+        </pre>
+
+        <footer><i>marcelnicolay.com</i></footer>
+      </article>
+
+      <article>
+        <h3>timers</h3>
+        <p>executar um callback na próxima iteração, ou após algum intervalo</p>
+        <ul class='build'>
+          <li>ioloop.add_timeout(deadline, callback)</li>
+          <li>ioloop.remove_timeout(timeout)</li>
+          <li>ioloop.add_callback(callback)</li>
+        </ul>
+
+        <footer><i>marcelnicolay.com</i></footer>
+      </article>
+
+      <article>
+        <h3>tornado.httpclient.AsyncHTTPClient</h3>
+        <p>An non-blocking HTTP client.</p>
+        <pre>import ioloop
+
+def handle_request(response):
+    if response.error:
+        print "Error:", response.error
+    else:
+        print response.body
+    ioloop.IOLoop.instance().stop()
+
+http_client = httpclient.AsyncHTTPClient()
+http_client.fetch("http://www.google.com/", handle_request)
+ioloop.IOLoop.instance().start()
+        </pre>
+      </article>
+
+      <article>
+        <h3>tornado.platform.twisted</h3>
+        <p>This module contains a Twisted reactor build on the Tornado IOLoop</p>
+        <pre>import tornado.platform.twisted
+tornado.platform.twisted.install()
+from twisted.internet import reactor
+        </pre>
+        <center><img src='media/images/nuclear-bomb-explosion.jpg'/></center>
+
+        <footer><i>marcelnicolay.com</i></footer>
+      </article>
+
+
+      <article>
+        <h3>tornado.websocket</h3>
+        <p>WebSockets allow for bidirectional communication between the browser and server.</p>
+        <pre>class EchoWebSocket(websocket.WebSocketHandler):
+    def open(self):
+        print "WebSocket opened"
+
+    def on_message(self, message):
+        self.write_message(u"You said: " + message)
+
+    def on_close(self):
+        print "WebSocket closed"
+        </pre>
+
+        <footer><i>marcelnicolay.com</i></footer>
+      </article>
+
+      <article>
+        <h3>tornado.netutil.TCPServer</h3>
+        <p>A non-blocking, single-threaded TCP server.</p>
+        <div style='height:600px; overflow-y:scroll'>
+        <pre>from tornado import ioloop
+from tornado import netutil
+
+class EchoServer(netutil.TCPServer):
+
+    def handle_stream(self, stream, address):
+        self._stream = stream
+        self._read_line()
+
+    def _read_line(self):
+        self._stream.read_until('\n', self._handle_read)
+
+    def _handle_read(self, data_in):
+        self._stream.write('You sent: %s' % data_in)
+        self._read_line()
+
+if __name__ == '__main__':
+    server = EchoServer()
+    server.listen(2007)
+    ioloop.IOLoop.instance().start())
+        </pre>
+      </div>
+        <footer><i>marcelnicolay.com</i></footer>
+      </article>
+
+      <article>
+        <h1><img src='http://www.tornadoweb.org/static/tornado.png' /></h1>
+        <p>
+          Mais do que um framework bonitinho
+        </p>
+        <p style='margin-top:20px'>
+        <center><img src='media/images/question.jpg' width='200' height='200' /></center>
+      </p>
+        <footer><i>marcelnicolay.com</i></footer>
+      </article>
+
+      <article>
+        <h3>referências</h3>
+        <ul>
+          <li><a href='http://en.wikipedia.org/wiki/Asynchronous_I/O'>http://en.wikipedia.org/wiki/Asynchronous_I/O</a></li>
+          <li><a href='http://www.kegel.com/dkftpbench/nonblocking.html'>http://www.kegel.com/dkftpbench/nonblocking.html</a></li>
+          <li><a href='http://www.kernel.org/doc/man-pages/online/pages/man4/epoll.4.html'>http://www.kernel.org/doc/man-pages/online/pages/man4/epoll.4.html</a></li>
+          <li><a href='http://scotdoyle.com/python-epoll-howto.html'>http://scotdoyle.com/python-epoll-howto.html</a></li>
+          <li><a href='http://docs.python.org/2/library/select.html'>http://docs.python.org/2/library/select.html</a></li>
+          <li><a href='http://www.tornadoweb.org/documentation/index.html'>http://www.tornadoweb.org/documentation/index.html</a></li>
+          <li><a href='http://dabeaz.com/coroutines/Coroutines.pdf'>http://dabeaz.com/coroutines/Coroutines.pdf</a></li>          
+        </ul>
+        <footer><i>marcelnicolay.com</i></footer>
+      </article>
+      
+
+    </section>
+
+  </body>
+<script type="text/javascript">
+        window.addEventListener('load', function(){
+            var link = document.getElementsByTagName('link');
+            link[link.length-1].setAttribute ("media","screen");
+        });
+        <script>
+</html>
